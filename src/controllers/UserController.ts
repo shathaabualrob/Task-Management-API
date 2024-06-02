@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 require('dotenv').config();
+const jwtSecretKey = process.env.JWT_SECRET_KEY;
 
 export const register = async (req: Request, res: Response) => {
     const {username, password} = req.body;
@@ -29,7 +30,7 @@ export const login = async (req: Request, res: Response) =>{
     if(user){
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if(isPasswordValid){
-            const jwtSecretKey = process.env.JWT_SECRET_KEY;
+            
             if (!jwtSecretKey) {
                 throw new Error('JWT_SECRET_KEY is not defined');
             }
